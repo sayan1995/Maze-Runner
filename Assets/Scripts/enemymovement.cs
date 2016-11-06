@@ -21,7 +21,7 @@ public class enemymovement : MonoBehaviour {
          while (i < 1.0f) {
              i += Time.deltaTime * rate;
              thisTransform.position = Vector3.Lerp(startPos, endPos, i);
-			Debug.Log (thisTransform.position);
+			//Debug.Log (thisTransform.position);
 			//Debug.Log (Time.deltaTime);
              yield return null; 
          }

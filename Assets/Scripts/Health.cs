@@ -7,13 +7,14 @@ public class Health : MonoBehaviour {
 	
 	public float healthPoints = 1f;
 	public float respawnHealthPoints = 1f;		//base health points
-	
+
 	public int numberOfLives = 1;					//lives and variables for respawning
 	public bool isAlive = true;	
 
 	public GameObject explosionPrefab;
 	
 	public deathAction onLivesGone = deathAction.doNothingWhenDead;
+
 	
 	public string LevelToLoad = "";
 	
@@ -38,7 +39,19 @@ public class Health : MonoBehaviour {
 	void Update () 
 	{
 		if (healthPoints <= 0) {				// if the object is 'dead'
-			numberOfLives--;					// decrement # of lives, update lives GUI
+			numberOfLives--;	// decrement # of lives, update lives GUI
+			if (numberOfLives == 2) {
+				var life = GameObject.FindWithTag ("life3");
+				life.SetActive (false);
+			} else if (numberOfLives == 1) {
+				var life = GameObject.FindWithTag ("life2");
+				life.SetActive (false);
+			}
+			else
+			{
+				var life = GameObject.FindWithTag ("life1");
+				life.SetActive (false);
+			}
 			
 			if (explosionPrefab!=null) {
 				Instantiate (explosionPrefab, transform.position, Quaternion.identity);
