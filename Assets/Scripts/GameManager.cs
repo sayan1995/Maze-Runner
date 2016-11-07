@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System; 
 
 
 public class GameManager : MonoBehaviour {
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour {
 	public gameStates gameState = gameStates.Playing;
 
 	public int score=0;
-	public int totalScore=0;
+	public float totalScore;
 	public bool canBeatLevel = false;
 	public int beatLevelScore=0;
 
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		playerHealth = player.GetComponent<Health>();
-
+		totalScore = Time.time;
 		// setup score display
 		Collect (0);
 
@@ -53,6 +54,15 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Update () {
+		totalScore += Time.deltaTime;
+		string p = totalScore.ToString ();
+		string k = p.Substring(0, 4);
+		totalScoreDisplay.text =k  + "/40";
+		int score = (int)Math.Ceiling(totalScore);
+		Debug.Log (score);
+		if (score >= 40)
+			playerHealth.isAlive = false;
+			
 		switch (gameState)
 		{
 			case gameStates.Playing:
@@ -73,24 +83,45 @@ public class GameManager : MonoBehaviour {
 				//Debug.Log ("FF");
 					// 
 					//
-				if (beatLevelScore == 6) {
-					GameObject wall2 = GameObject.FindWithTag ("wall1");
-					Destroy (wall2, 0.0f);
-					beatLevelScore = 4;
-					score = 0;
-					Collect (0);
+				if (Application.loadedLevelName == "scene3") {
+					if (beatLevelScore == 6) {
+						GameObject wall2 = GameObject.FindWithTag ("wall1");
+						Destroy (wall2, 0.0f);
+						beatLevelScore = 4;
+						score = 0;
+						Collect (0);
 					}
-				else
-				{		// update gameState
-					UnityStandardAssets.Vehicles.Ball.Ball.m_JumpPower=0.3f;
-					gameState = gameStates.BeatLevel;
-					//hide the player so game doesn't continue playing
-					player.SetActive(false);
-					// switch which GUI is showing	
-					mainCanvas.SetActive (false);
-					beatLevelCanvas.SetActive (true);
+					else
+					{		// update gameState
+						UnityStandardAssets.Vehicles.Ball.Ball.m_JumpPower=0.3f;
+						gameState = gameStates.BeatLevel;
+						//hide the player so game doesn't continue playing
+						player.SetActive(false);
+						// switch which GUI is showing	
+						mainCanvas.SetActive (false);
+						beatLevelCanvas.SetActive (true);
+					}
+				} 
+				if (Application.loadedLevelName == "scene4"){
+					if (beatLevelScore == 6) {
+						GameObject wall2 = GameObject.FindWithTag ("wall1");
+						Destroy (wall2, 0.0f);
+						beatLevelScore = 12;
+						score = 0;
+						Collect (0);
+					}
+					else
+					{		// update gameState
+						UnityStandardAssets.Vehicles.Ball.Ball.m_JumpPower=0.3f;
+						gameState = gameStates.BeatLevel;
+						//hide the player so game doesn't continue playing
+						player.SetActive(false);
+						// switch which GUI is showing	
+						mainCanvas.SetActive (false);
+						beatLevelCanvas.SetActive (true);
+					}
 				}
-				}
+			}
 				break;
 			case gameStates.Death:
 				backgroundMusic.volume -= 0.01f;
@@ -120,10 +151,10 @@ public class GameManager : MonoBehaviour {
 
 	public void Collect(int amount) {
 		score += amount;
-		totalScore += amount;
+
 		if (canBeatLevel) {
 			mainScoreDisplay.text = score.ToString () + " of "+beatLevelScore.ToString ();
-			totalScoreDisplay.text = totalScore.ToString () + "/20";
+
 		} else {
 			mainScoreDisplay.text = score.ToString ();
 		}

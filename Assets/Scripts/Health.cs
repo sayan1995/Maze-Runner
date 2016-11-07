@@ -40,23 +40,22 @@ public class Health : MonoBehaviour {
 	{
 		if (healthPoints <= 0) {				// if the object is 'dead'
 			numberOfLives--;	// decrement # of lives, update lives GUI
-			if (numberOfLives == 2) {
-				var life = GameObject.FindWithTag ("life3");
-				life.SetActive (false);
-			} else if (numberOfLives == 1) {
-				var life = GameObject.FindWithTag ("life2");
-				life.SetActive (false);
-			}
-			else
-			{
-				var life = GameObject.FindWithTag ("life1");
-				life.SetActive (false);
-			}
+			if (this.tag == "Player") {
+				if (numberOfLives == 2) {
+					var life = GameObject.FindWithTag ("life3");
+					life.SetActive (false);
+				} else if (numberOfLives == 1) {
+					var life = GameObject.FindWithTag ("life2");
+					life.SetActive (false);
+				} else if (numberOfLives == 0) {
+					var life = GameObject.FindWithTag ("life1");
+					life.SetActive (false);
+				}
 			
-			if (explosionPrefab!=null) {
-				Instantiate (explosionPrefab, transform.position, Quaternion.identity);
+				if (explosionPrefab != null) {
+					Instantiate (explosionPrefab, transform.position, Quaternion.identity);
+				}
 			}
-			
 			if (numberOfLives > 0) { // respawn
 				transform.position = respawnPosition;	// reset the player to respawn position
 				transform.rotation = respawnRotation;
