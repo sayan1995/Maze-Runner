@@ -3,10 +3,11 @@ using System.Collections;
 
 public class enemymovement : MonoBehaviour {
 
- public Vector3 pointB;
-     
+ 	public Vector3 pointB;    
+	public Vector3 spawnposition ;
      IEnumerator Start()
      {
+		
          var pointA = transform.position;
          while (true) {
              yield return StartCoroutine(MoveObject(transform, pointA, pointB, 3.0f));
@@ -23,6 +24,7 @@ public class enemymovement : MonoBehaviour {
              thisTransform.position = Vector3.Lerp(startPos, endPos, i);
 			//Debug.Log (thisTransform.position);
 			//Debug.Log (Time.deltaTime);
+
              yield return null; 
          }
      }	
