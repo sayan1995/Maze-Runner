@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			Application.LoadLevel("1");
+		}
 		if (death == false && Application.loadedLevelName == "scene4") {
 			totalScore += Time.deltaTime;
 			string p = totalScore.ToString ();
