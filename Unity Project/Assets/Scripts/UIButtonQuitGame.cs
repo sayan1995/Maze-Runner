@@ -7,6 +7,7 @@ public class UIButtonQuitGame : MonoBehaviour {
 	public void quitGame()
 	{
 		//Closes the game
+		Debug.Log("sds");
 		Application.Quit();
 	}
 }
